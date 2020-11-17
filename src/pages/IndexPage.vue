@@ -3,31 +3,24 @@
     <div id="upload_layer" v-if="haveAnyTask">
       <h2 class="title">"{{titleName}}" 收集</h2>
       <div class="info">
-        <p>填写信息，后台会自动帮你重命名的</p>
-        <div class="forms" v-if="">
-          <label>学号:　　</label>
-          <input v-model.lazy="infoStore.stuId" placeholder="">
-        </div>
+        <p class="intro">是一项仅面向 {{className}} 的轻量服务</p>
+        <p class="intro">填写学号后三位一键提交，剩下的事情后台会帮你搞定</p>
         <div class="forms">
-          <label>姓名:　　</label>
-          <input v-model.lazy="infoStore.name" placeholder="">
-        </div>
-        <div class="forms" v-if="">
-          <label>身份证号:</label>
-          <input v-model.lazy="infoStore.idCard" placeholder="">
+          <label>学号后三位：</label>
+          <input v-model.lazy="stuId" placeholder="">
         </div>
       </div>
-      <input type="file" multiple />
-      <p>第二次提交将会覆盖上一次的提交</p>     
+      <input type="file" multiple/>
+      <p>第二次提交将会覆盖上一次的提交</p>
       <div class="button start" role="button" v-show="!haveStarted" @click="updateStart">
         <span>上传文件</span>
       </div>
     </div>
-   
+
    <div id="alart_layer" v-if="!haveAnyTask">
      <h2>当前没有文件需要上传</h2>
-   </div> 
-    
+   </div>
+
   </div>
 </template>
 
@@ -36,14 +29,11 @@ export default {
   name: 'IndexPage',
   data () {
     return {
-      haveAnyTask: true,
+      haveAnyTask: false,
       titleName: '文件',
+      className: '某校某系某班',
       haveStarted: false,
-      infoStore: {
-        stuId: '',
-        name: '',
-        idCard: ''
-      }
+      stuId: ''
     }
   },
   mounted() {
@@ -54,13 +44,13 @@ export default {
       if (this.haveStarted === true) {
         alert('上传已经开始')
       } else {
-        this.haveStarted = true 
+        this.haveStarted = true
       }
     },
     fetchTask () {
       this.axios.get('https://api.uixsj.cn/hitokoto/get?type=hitokoto&code=json')
         .then(function (response) {
-          console.log(response.data.content)
+          console.log(response.data)
         })
         .catch(function (error) {
           console.log(error)
@@ -89,6 +79,9 @@ export default {
   margin: 1rem auto;
 }
 .forms {
-  margin: 0.4rem auto;
+  margin: 1.2rem auto;
+}
+.intro {
+  margin: 0;
 }
 </style>

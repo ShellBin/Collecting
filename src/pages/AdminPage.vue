@@ -1,6 +1,6 @@
 <template>
   <div class="admin_page">
-    
+
   </div>
 </template>
 
@@ -9,13 +9,12 @@ export default {
   name: 'AdminPage',
   data () {
     return {
-      infoStore: {}
     }
   },
   mounted() {
   },
   methods: {
-  
+
   }
 }
 </script>

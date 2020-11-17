@@ -4,7 +4,8 @@ const webpackMiddleware = require('webpack-dev-middleware');
 
 // Setup
 const app = express();
-const port = process.env['WEB_APP_PORT'];
+// const port = process.env['WEB_APP_PORT'];
+const port = 8088
 const config = require('./webpack.config.dev.js');
 const compiler = webpack(config);
 const middleware = webpackMiddleware(compiler, {
@@ -12,7 +13,7 @@ const middleware = webpackMiddleware(compiler, {
   serverSideRender: true,
   watchOptions: {
     // Due to iOS devices memory constraints
-    // disabling file watching is recommended 
+    // disabling file watching is recommended
     ignored: /.*/
   }
 });
