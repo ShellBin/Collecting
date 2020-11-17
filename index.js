@@ -16,10 +16,11 @@ const middleware = webpackMiddleware(compiler, {
     ignored: /.*/
   }
 });
-app.use(middleware);
+app.use(middleware)
+
 app.get('/', (req, res) => {
   res.sendFile('public/index.html', { root: __dirname });
-});
+})
 
 // Launch app
 app.listen(port, () => {
