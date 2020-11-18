@@ -1,7 +1,8 @@
 const  config = require('../config')
+const fs = require('fs')
 
 function fetchTask (req, res) {
-    const data = require('../data.json')
+    const data = fs.readFileSync('../data.json')
 
     res.send({
         status: 'ok',

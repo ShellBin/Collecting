@@ -2,6 +2,7 @@ const express = require('express')
 
 const config = require('./config')
 const indexPage = require('./indexPage')
+
 let server = express()
 
 server.listen(config.http.port)
@@ -13,4 +14,3 @@ server.use('/api/v1/',router)
 router.get('/fetchTask',indexPage.fetchTask)
 // API: 处理上传的文件
 // router.get('/uploadFile',indexPage.uploadFile)
-
