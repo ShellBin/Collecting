@@ -1,8 +1,9 @@
-const  config = require('../config')
+const config = require('../config')
 const fs = require('fs')
+const path = require('path')
 
 function fetchTask (req, res) {
-    const data = fs.readFileSync('../data.json')
+    const data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
 
     res.send({
         status: 'ok',
@@ -11,7 +12,5 @@ function fetchTask (req, res) {
         className: config.info.className,
     })
 }
-
-// TODO: 应在每次访问时都重新读取 json (readfilesync)
 
 module.exports = fetchTask

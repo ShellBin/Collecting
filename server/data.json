@@ -1,4 +1,16 @@
 {
   "haveAnyTask": false,
-  "titleName": "文件"
+  "titleName": "文件",
+  "stuInfo": {
+    "810": {
+      "stuName": "叶文骏",
+      "idCard": "140202199808163511",
+      "fullStuId": "1145141919810"
+    },
+    "789": {
+      "stuName": "大可爱",
+      "idCard": "132132131321312",
+      "fullStuId": "去玩儿群翁人情味儿789"
+    }
+  }
 }
