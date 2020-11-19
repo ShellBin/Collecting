@@ -1,6 +1,7 @@
 module.exports = {
     http: {
         port: 8089,
+        host: ''
     },
     admin: {
         password: 'password',

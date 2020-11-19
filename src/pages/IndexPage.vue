@@ -4,7 +4,8 @@
       <h2 class="title">"{{titleName}}" 收集</h2>
       <div class="info">
         <p class="intro">是一项仅面向 {{className}} 的轻量服务</p>
-        <p class="intro">填写学号后三位一键提交，剩下的事情后台会帮你搞定</p>
+        <p class="intro">填写信息一键提交，重命名等破事后台会帮你搞定</p>
+        <p class="intro">同时，收集文件、截图的同学也可以一键打包下载全班文件</p>
         <div class="forms">
           <label>学号后三位：</label>
           <input v-model.lazy="stuId" placeholder="">
@@ -48,9 +49,13 @@ export default {
       }
     },
     fetchTask () {
-      this.axios.get('https://api.uixsj.cn/hitokoto/get?type=hitokoto&code=json')
-        .then(function (response) {
-          console.log(response.data)
+      this.axios.get('http://127.0.0.1:8089/api/v1/fetchTask')
+        .then((response) => {
+          if(response.data.status === 'ok') {
+            this.haveAnyTask = response.data.haveAnyTask
+            this.titleName = response.data.titleName
+            this.className = response.data.className
+          } else console.log('API 内部出错')
         })
         .catch(function (error) {
           console.log(error)

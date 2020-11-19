@@ -18,9 +18,7 @@ function indexStuInfo(stuId) {
 }
 
 function uploadFile (req, res) {
-    // if (indexStuInfo(req.query.stuId)) {
-    if (true) {
-        console.log(req.body)
+    if (indexStuInfo(req.headers.stuid)) {
         res.send({
             status: 'success',
             stuName: stuName,

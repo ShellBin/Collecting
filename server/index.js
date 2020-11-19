@@ -1,15 +1,17 @@
 const express = require('express')
-const BodyParser= require('body-parser');
-// const multer = require('multer')
+const bodyParser = require('body-parser')
+const multer = require('multer')
 
 const config = require('./config')
 const indexPage = require('./indexPage')
 
 const server = express()
 const router = express.Router()
+const upload = multer({dest: './uploads/'})
 
-// server.use(multer({ dest: './uploads/'}))
-server.use(BodyParser.urlencoded({ extended: true }));
+server.use(bodyParser.json())
+server.use(bodyParser.urlencoded({ extended: false }))
+server.use(upload.any())
 
 server.listen(config.http.port)
 
