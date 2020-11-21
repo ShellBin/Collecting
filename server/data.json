@@ -1,6 +1,9 @@
 {
   "haveAnyTask": true,
   "titleName": "文件",
+  "namingRules": "姓名 学号",
+  "haveDownload": false,
+
   "stuInfo": {
     "810": {
       "stuName": "张三",

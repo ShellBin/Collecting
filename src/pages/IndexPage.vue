@@ -11,14 +11,18 @@
           <input v-model.lazy="stuId" placeholder="">
         </div>
       </div>
-      <input type="file" multiple/>
+      <input type="file"/>
       <p>第二次提交将会覆盖上一次的提交</p>
-      <div class="button start" role="button" v-show="!haveStarted" @click="updateStart">
+      <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart">
         <span>上传文件</span>
+      </div>
+      <div class="progress-wrap">
+        <p>上传进度</p>
+        <p class="progress"><span :style="style"></span></p>
       </div>
     </div>
 
-   <div id="alart_layer" v-if="!haveAnyTask">
+   <div id="alert_layer" v-if="!haveAnyTask">
      <h2>当前没有文件需要上传</h2>
    </div>
 
@@ -34,19 +38,27 @@ export default {
       titleName: '文件',
       className: '某校某系某班',
       haveStarted: false,
-      stuId: ''
+      stuId: '',
+      fileSize: ''
     }
   },
   mounted() {
     this.fetchTask()
   },
+  change(e) {
+
+  },
   methods: {
-    updateStart () {
+    uploadStart () {
       if (this.haveStarted === true) {
         alert('上传已经开始')
       } else {
         this.haveStarted = true
+        this.upload()
       }
+    },
+    upload () {
+
     },
     fetchTask () {
       this.axios.get('http://127.0.0.1:8089/api/v1/fetchTask')

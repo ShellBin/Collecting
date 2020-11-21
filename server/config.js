@@ -3,6 +3,9 @@ module.exports = {
         port: 8089,
         host: ''
     },
+    fs: {
+        path: './uploads-temp/'
+    },
     admin: {
         password: 'password',
     },
