@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const cors = require('cors')
 
 const config = require('./config')
 const indexPage = require('./indexPage')
@@ -11,6 +12,7 @@ const upload = multer({dest: config.fs.path})
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
+server.use(cors())
 
 server.listen(config.http.port)
 server.use('/api/v1/',router)

@@ -22,8 +22,8 @@ function uploadFile (req, res) {
     if (indexStuInfo(req.headers.stuid)) {
         console.log(`${stuName} (${req.connection.remoteAddress}) uploaded ${req.file.originalname}`)
 
-        // 姓名 学号 身份证号
-        const naming = data.namingRules.replace(/姓名/g,stuName).replace(/身份证号/g, idCard).replace(/学号/g, fullStuId)
+        // 姓名 学号 身份证号 任务名
+        const naming = data.namingRules.replace(/姓名/g,stuName).replace(/身份证号/g, idCard).replace(/学号/g, fullStuId).replace(/任务名/g, data.titleName)
         const newName = `${naming}` + '.' + req.file.originalname.split('.').pop()
         fs.renameSync(req.file.path, config.fs.path + newName)
 
@@ -32,6 +32,7 @@ function uploadFile (req, res) {
             finalFileName: newName
         })
     } else {
+        fs.unlinkSync(req.file.path)
         res.status(403).send({
             status: 'error',
             message: '用户不存在'

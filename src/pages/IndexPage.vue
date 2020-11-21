@@ -5,25 +5,32 @@
       <div class="info">
         <p class="intro">是一项仅面向 {{className}} 的轻量服务</p>
         <p class="intro">填写信息一键提交，重命名等破事后台会帮你搞定</p>
-        <p class="intro">同时，收集文件、截图的同学也可以一键打包下载全班文件</p>
-        <div class="forms">
-          <label>学号后三位：</label>
-          <input v-model.lazy="stuId" placeholder="">
-        </div>
+        <p class="intro">同时，收集文件截图的同学也可以一键打包下载全班文件</p>
       </div>
-      <input type="file"/>
-      <p>第二次提交将会覆盖上一次的提交</p>
+
+      <div v-show="!haveStarted" class="forms">
+        <label>学号后三位：</label>
+        <input v-model.lazy="stuId" placeholder="">
+        <br>
+        <input type="file" ref="file">
+      </div>
+
+      <h2>状态：{{ displayStatus }}</h2>
+      <h3>{{ displayMessage }}</h3>
+
       <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart">
         <span>上传文件</span>
       </div>
-      <div class="progress-wrap">
-        <p>上传进度</p>
-        <p class="progress"><span :style="style"></span></p>
+      <div class="button start" role="button" v-show="isError" @click="back">
+        <span>返回</span>
       </div>
+
+      <p>第二次提交将会覆盖上一次的提交</p>
     </div>
 
    <div id="alert_layer" v-if="!haveAnyTask">
      <h2>当前没有文件需要上传</h2>
+     <p>或网速太慢获取不到任务（小声</p>
    </div>
 
   </div>
@@ -38,15 +45,14 @@ export default {
       titleName: '文件',
       className: '某校某系某班',
       haveStarted: false,
+      isError: false,
       stuId: '',
-      fileSize: ''
+      displayStatus: '等待上传中',
+      displayMessage : ''
     }
   },
   mounted() {
     this.fetchTask()
-  },
-  change(e) {
-
   },
   methods: {
     uploadStart () {
@@ -54,14 +60,37 @@ export default {
         alert('上传已经开始')
       } else {
         this.haveStarted = true
-        this.upload()
+      }if (parseInt(this.stuId) > 0) {
+        this.displayStatus = '文件正在上传...'
+        this.displayMessage = '当前进度 0%'
+
+        const file = this.$refs.file.files[0]
+        const data = new FormData()
+        data.append('file', file)
+        this.axios.post('http://localhost:8089/api/v1/uploadFile', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'stuId': this.stuId
+          },onUploadProgress: function (progressEvent){
+            this.displayMessage = '当前进度 ' + (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+          } })
+            .then(res => {
+              if(res.data.status === 'success') {this.displayStatus = '上传成功'; this.displayMessage = '当前命名：' + res.data.finalFileName}
+            })
+            .catch((error) => {
+              this.displayStatus = '上传失败'
+              this.displayMessage = '检查学号后三位是否填写正确'
+              this.isError = true
+              console.log(error)
+            })
+      } else {
+        this.displayStatus = '还不能开始上传'
+        this.displayMessage = '你真的有在好好填学号后三位吗？'
+        this.isError = true
       }
     },
-    upload () {
-
-    },
     fetchTask () {
-      this.axios.get('http://127.0.0.1:8089/api/v1/fetchTask')
+      this.axios.get('http://localhost:8089/api/v1/fetchTask')
         .then((response) => {
           if(response.data.status === 'ok') {
             this.haveAnyTask = response.data.haveAnyTask
@@ -72,6 +101,12 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+    },
+    back () {
+      this.isError = false
+      this.haveStarted = false
+      this.displayStatus = '等待上传中'
+      this.displayMessage = '希望这次你能成功上传'
     }
   }
 }
