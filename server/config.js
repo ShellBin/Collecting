@@ -4,7 +4,7 @@ module.exports = {
         host: ''
     },
     fs: {
-        path: './uploads-temp/'
+        path: './uploads/'
     },
     admin: {
         password: 'password',

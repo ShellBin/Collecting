@@ -19,6 +19,7 @@ function indexStuInfo(stuId) {
 }
 
 function uploadFile (req, res) {
+    console.log(req.file)
     if (indexStuInfo(req.headers.stuid)) {
         console.log(`${stuName} (${req.connection.remoteAddress}) uploaded ${req.file.originalname}`)
 
