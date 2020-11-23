@@ -23,6 +23,6 @@ router.get('/fetchTask',indexPage.fetchTask)
 // API: 处理上传的文件
 router.post('/uploadFile',upload.single('file'),indexPage.uploadFile)
 // API: 处理登录操作
-// router.post('/login',adminPage.login)
+router.post('/login',adminPage.login)
 
 console.log('Server is running at '+config.http.port+' port, hostname/api/v1/')

@@ -18,15 +18,25 @@ function indexStuInfo(stuId) {
     } else return false
 }
 
+function saveData() {
+    fs.writeFile('data.json', JSON.stringify(data), function (err){
+        if(err) {
+            console.error(err)
+        }
+    })
+}
+
 function uploadFile (req, res) {
-    console.log(req.file)
     if (indexStuInfo(req.headers.stuid)) {
         console.log(`${stuName} (${req.connection.remoteAddress}) uploaded ${req.file.originalname}`)
 
         // 姓名 学号 身份证号 任务名
         const naming = data.namingRules.replace(/姓名/g,stuName).replace(/身份证号/g, idCard).replace(/学号/g, fullStuId).replace(/任务名/g, data.titleName)
-        const newName = `${naming}` + '.' + req.file.originalname.split('.').pop()
+        const newName = `${naming}` + '.' +req.file.originalname.split('.').pop()
         fs.renameSync(req.file.path, config.fs.path + newName)
+
+        data.stuInfo[req.headers.stuid].haveUpload = true
+        saveData()
 
         res.send({
             status: 'success',
