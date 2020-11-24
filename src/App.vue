@@ -23,6 +23,7 @@ export default {
   mounted() {
     console.log('欢迎使用')
     if(location.hash === '#admin') {
+    //if(location.hash !== '#admin') { // 调试用途
       this.isAdmin = true
     }
   }
