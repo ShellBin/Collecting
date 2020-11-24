@@ -32,7 +32,7 @@ module.exports = {
             loader: 'file-loader',
           },
         ]
-      },    
+      },
     ]
   },
   plugins: [

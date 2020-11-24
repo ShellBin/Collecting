@@ -21,7 +21,7 @@ export default {
   name: 'AdminPage',
   data () {
     return {
-      server:'http://localhost:8089/api/v1/',
+      server:'http://localhost:3001/api/v1/',
       message: '欢迎',
       password: '',
       isLogin: false,
@@ -47,9 +47,11 @@ export default {
             this.message = res.data.titleName + '收集情况'
             this.nameList = res.data.nameList + '，共 ' + res.data.nameList.length +' 人'
             this.isLogin = true
+            //添加 cookie
             console.log('登录成功')
           } else {
             this.message = '密码错误，请检查后重试'
+            //删除 cookie
           }
         }).catch(error => {
           console.log(error)

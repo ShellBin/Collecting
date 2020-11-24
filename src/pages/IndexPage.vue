@@ -43,7 +43,7 @@ export default {
   name: 'IndexPage',
   data () {
     return {
-      server:'http://localhost:8089/api/v1/',
+      server:'http://localhost:3001/api/v1/',
       haveAnyTask: false,
       titleName: '文件',
       className: '某校某系某班',

@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const multer = require('multer')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
 const config = require('./config')
@@ -14,9 +15,11 @@ const upload = multer({dest: './uploads-temp/'})
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(cors())
+server.use(cookieParser())
 
 server.listen(config.http.port)
 server.use('/api/v1/',router)
+server.use("/static",express.static("./public"));
 
 // API: 获取当前的收集任务
 router.get('/fetchTask',indexPage.fetchTask)
