@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const multer = require('multer')
 const cookieParser = require('cookie-parser')
-const cors = require('cors')
 
 const config = require('./config')
 const indexPage = require('./indexPage')
@@ -14,7 +13,6 @@ const upload = multer({dest: './uploads-temp/'})
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
-server.use(cors())
 server.use(cookieParser())
 
 server.listen(config.http.port)

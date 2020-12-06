@@ -4,7 +4,7 @@
       <h2>管理员登录</h2>
       <h3>{{message}}</h3>
       <label>管理密码：</label>
-      <input type="password" v-model.lazy="password" style="margin: 1rem 0">
+      <input type="password" v-model.lazy="password" @keyup.enter="login" style="margin: 1rem 0">
       <button @click="login">登录</button>
     </div>
     <div id="admin_layer" v-if="isLogin">
@@ -18,6 +18,7 @@
         <h3>目前收集到的所有文件</h3>
         <button>下载所有</button>
         <p>服务器端文件将在最后一次下载后12小时内自动删除，请妥善保存文件</p>
+        <button @click="clearAllCookie">退出登录状态</button>
       </div>
     </div>
   </div>
@@ -28,47 +29,59 @@ export default {
   name: 'AdminPage',
   data () {
     return {
-      server:'http://localhost:3001/api/v1/',
+      haveToken: false,
       message: '欢迎',
       taskName:'文件',
       password: '',
-      isLogin: false, // 调试中，默认应为 false
+      isLogin: false,
       nameList: '空'
     }
   },
   mounted() {
-    if(document.cookie) {
+    this.haveToken = Boolean(document.cookie.match(/^(.*;)?\s*token\s*=\s*[^;]+(.*)?$/))
+
+    if(this.haveToken) {
       console.log('自动登录')
       this.login()
     }
   },
   methods: {
     login() {
-      if(this.password === '') {
+      if(!this.haveToken && this.password === '') {
         this.message = '请输入密码'
       } else {
         //进入登录逻辑
-        this.axios.post(this.server + 'login', {
-          pw: this.password
+        this.axios.post(this.backEndHost + 'login', {
+          pw: this.password,
+          withCredentials: true
         }).then (res => {
           if(res.data.status === 'success') {
             this.taskName = res.data.titleName
             this.message = ''
             if(res.data.nameList.length > 0){
-              this.nameList = res.data.nameList + '，共 ' + res.data.nameList.length +' 人' 
+              this.nameList = res.data.nameList + '，共 ' + res.data.nameList.length +' 人'
             }
             this.isLogin = true
-            //添加 cookie
             console.log('登录成功')
           } else {
-            this.message = '密码错误，请检查后重试'
+            this.message = '凭据无效，请检查后重试'
             //删除 cookie
+            this.clearAllCookie()
           }
         }).catch(error => {
           console.log(error)
           this.message = '网络错误'
         })
       }
+    },
+    clearAllCookie() {
+      const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+      if(keys) {
+        for(let i = keys.length; i--;) {
+          document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        }
+      }
+      alert('下次该输密码重新登录噜')
     }
   },
   updateTask() {

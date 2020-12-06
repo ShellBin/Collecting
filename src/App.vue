@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="admin-view-button" @click="isAdmin = !isAdmin"><span v-show="isAdmin">返回</span><span v-show="!isAdmin">登录</span></div>
     <template v-if="!isAdmin"> <IndexPage/> </template>
     <template v-if="isAdmin"> <AdminPage/> </template>
   </div>
@@ -22,10 +23,6 @@ export default {
   },
   mounted() {
     console.log('欢迎使用')
-    if(location.hash === '#admin') {
-    //if(location.hash !== '#admin') { // 调试用途
-      this.isAdmin = true
-    }
   }
 }
 </script>
@@ -41,6 +38,12 @@ export default {
 }
 a {
   color: #42b983;
+}
+
+.admin-view-button {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
 }
 
 </style>

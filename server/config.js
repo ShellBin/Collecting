@@ -1,6 +1,6 @@
 module.exports = {
     http: {
-        port: 8089,
+        port: 8001,
         host: ''
     },
     fs: {

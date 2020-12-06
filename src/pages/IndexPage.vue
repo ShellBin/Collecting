@@ -4,8 +4,7 @@
       <h2 class="title">"{{titleName}}" 收集</h2>
       <div class="info">
         <p class="intro">是一项仅面向 {{className}} 的轻量服务</p>
-        <p class="intro">填写信息一键提交，重命名等破事后台会帮你搞定</p>
-        <p class="intro">同时，收集文件截图的同学也可以一键打包下载全班文件</p>
+        <p class="intro">这样收集者会轻松一些（鞠躬）</p>
       </div>
 
       <div v-show="!haveStarted" class="forms">
@@ -15,8 +14,8 @@
         <input type="file" ref="file">
       </div>
 
-      <h2>状态：{{ displayStatus }}</h2>
-      <h3>{{ displayMessage }}</h3>
+      <h3>状态：{{ displayStatus }}</h3>
+      <h4>{{ displayMessage }}</h4>
 
       <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart">
         <span>上传文件</span>
@@ -43,7 +42,6 @@ export default {
   name: 'IndexPage',
   data () {
     return {
-      server:'http://localhost:3001/api/v1/',
       haveAnyTask: false,
       titleName: '文件',
       className: '某校某系某班',
@@ -55,9 +53,7 @@ export default {
     }
   },
   mounted() {
-    if(location.hash !== '#admin') {
-      this.fetchTask()
-    }
+    this.fetchTask()
   },
   methods: {
     uploadStart () {
@@ -97,7 +93,7 @@ export default {
     uploadFile(file) {
       const data = new FormData()
       data.append('file', file)
-      this.axios.post(this.server + 'uploadFile', data, {
+      this.axios.post(this.backEndHost + 'uploadFile', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'stuId': this.stuId
@@ -111,20 +107,21 @@ export default {
             this.displayStatus = '上传失败'
             this.displayMessage = '检查学号是否正确，网络是否正常'
             this.isError = true
-            console.log(error)
+            console.error(error)
           })
     },
     fetchTask () {
-      this.axios.get(this.server + 'fetchTask')
+      this.axios.get(this.backEndHost + 'fetchTask')
         .then((response) => {
           if(response.data.status === 'ok') {
+            console.log('获取到了任务')
             this.haveAnyTask = response.data.haveAnyTask
             this.titleName = response.data.titleName
             this.className = response.data.className
           } else console.log('API 内部出错')
         })
         .catch(function (error) {
-          console.log(error)
+          console.error(error)
         })
     },
     back () {
@@ -145,7 +142,7 @@ export default {
 .button {
   border: 1px solid #2c3e50;
   border-radius: 9px;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 .start {
   width: 10rem;
@@ -153,10 +150,10 @@ export default {
   font-size: 1.2rem;
 }
 .info {
-  margin: 1rem auto;
+  margin: 1rem auto 2rem;
 }
 .forms {
-  margin: 1.2rem auto;
+  margin: 1.2rem auto 2rem;
 }
 .intro {
   margin: 0;
