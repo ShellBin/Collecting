@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const md5 = require('md5')
 
+const deleteFiles = require('./delete-files')
+
 const token = md5(config.admin.password + config.admin.salt)
 
 function setTask (req, res) {
@@ -13,7 +15,7 @@ function setTask (req, res) {
         if (req.body.titleName !== '' && req.body.namingRules !== '') {
             const newString = req.body.namingRules
             // 姓名、学号、身份证号、任务名 必须有一项
-            if((newString.indexOf('姓名') + newString.indexOf('学号') + newString.indexOf('身份证号') + newString.indexOf('任务名')) > -1) {
+            if((newString.indexOf('姓名') + newString.indexOf('学号') + newString.indexOf('身份证号') + newString.indexOf('任务名')) !== -1) {
                 data.namingRules = req.body.namingRules
                 data.titleName = req.body.titleName
                 fs.writeFile('data.json', JSON.stringify(data), function (err){
@@ -21,6 +23,9 @@ function setTask (req, res) {
                         console.error(err)
                     }
                 })
+                if (req.body.deleteFiles) {
+                    deleteFiles()
+                }
                 res.send({
                     status: 'success'
                 })

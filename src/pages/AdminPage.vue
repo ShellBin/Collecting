@@ -14,7 +14,11 @@
         <label>本次任务名：</label>
         <input v-model.lazy="taskName" style="margin: 0.5rem 0"><br>
         <label>新命名格式：</label>
-        <input v-model.lazy="namingRules" style="margin: 0.5rem 0">
+        <input v-model.lazy="namingRules" style="margin: 0.5rem 0"><br>
+        <label>删除当前收集的文件</label>
+        <input type="checkbox" v-model="deleteFiles"><br>
+        <span v-show="!deleteFiles">勾选后会删除服务器端当前的文件</span>
+        <span v-show="deleteFiles">删除后服务器端文件将无法恢复</span>
         <p style="color: grey">命名格式支持 姓名、学号、身份证号、任务名 四种模板；命名模板之间可以用任何可作为文件名使用的符号连接（例如空格）</p>
         <button @click="updateTask">修改任务名及命名格式</button>
         <p>未上传名单：{{nameList}}</p>
@@ -36,6 +40,7 @@ export default {
       message: '欢迎',
       taskName:'文件',
       namingRules:'姓名 学号',
+      deleteFiles: false,
       password: '',
       isLogin: false,
       nameList: '空'
@@ -91,19 +96,34 @@ export default {
     updateTask() {
       if (this.namingRules !== '' && this.taskName !== '') {
         const reg = new RegExp('[\\\\/:*?\"<>|]')
-        if (reg.test(this.namingRules)) {
+        if (!reg.test(this.namingRules)) {
           this.axios.post(this.backEndHost + 'setTask', {
-            titleName: this.titleName,
+            titleName: this.taskName,
             namingRules: this.namingRules,
+            deleteFiles: this.deleteFiles,
             withCredentials: true
-          }).then({
-            // todo 对服务器的返回进行处理,一大堆 if else
+          }).then(res => {
+            if (res.data.status === 'success') {
+              this.message = '修改成功'
+              this.deleteFiles = false
+            } else {
+              switch (res.data.message) {
+                case 'invalid namingRules':
+                  this.message = '使用了不支持的命名规则'
+                      break
+                case 'empty':
+                  this.message = '太怪了，服务器说有东西空下没填'
+                      break
+                default:
+                  this.message = '未知错误，请联系管理员'
+              }
+            }
           })
         } else {
-          alert('命名规则中存在不合理的字符，建议重修计算机基础')
+          this.message = '命名规则中存在不合理的字符'
         }
       } else {
-        alert('任务名和命名规则间有什么东西没填好啦')
+        this.message = '任务名和命名规则间有什么东西没填好啦'
       }
     },
     downloadFile() {

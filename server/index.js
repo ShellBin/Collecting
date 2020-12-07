@@ -11,6 +11,8 @@ const server = express()
 const router = express.Router()
 const upload = multer({dest: './uploads-temp/'})
 
+// todo 初始化下载文件夹 uploads
+
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
 server.use(cookieParser())
