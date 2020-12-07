@@ -25,5 +25,9 @@ router.get('/fetchTask',indexPage.fetchTask)
 router.post('/uploadFile',upload.single('file'),indexPage.uploadFile)
 // API: 处理登录操作
 router.post('/login',adminPage.login)
+// API: 信息修改操作
+router.post('/setTask',adminPage.setTask)
+// API: 文件下载操作
+// router.get('/downloadFiles',adminPage.downloadFiles)
 
 console.log('Server is running at '+config.http.port+' port, hostname/api/v1/')

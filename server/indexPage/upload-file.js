@@ -27,7 +27,7 @@ function saveData() {
 }
 
 function uploadFile (req, res) {
-    if (indexStuInfo(req.headers.stuid)) {
+    if (indexStuInfo(req.headers.stuid) && Boolean(req.file)) {
         console.log(`${stuName} (${req.connection.remoteAddress}) uploaded ${req.file.originalname}`)
 
         // 姓名 学号 身份证号 任务名
@@ -46,7 +46,7 @@ function uploadFile (req, res) {
         fs.unlinkSync(req.file.path)
         res.status(403).send({
             status: 'error',
-            message: '用户不存在'
+            message: '用户不存在/文件不合法'
         })
     }
 }

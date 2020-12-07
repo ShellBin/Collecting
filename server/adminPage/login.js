@@ -3,9 +3,9 @@ const fs = require('fs')
 const path = require('path')
 const md5 = require('md5')
 
-function login (req, res) {
-    const token = md5(config.admin.password + config.admin.salt)
+const token = md5(config.admin.password + config.admin.salt)
 
+function login (req, res) {
     if (req.body.pw === config.admin.password || req.cookies.token === token) {
         console.log('user "' + req.connection.remoteAddress + '" login')
         const data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
@@ -26,7 +26,7 @@ function login (req, res) {
     } else {
         res.send({
             status: 'ok',
-            message: 'invalid password'
+            message: 'invalid credentials'
         })
     }
 }
