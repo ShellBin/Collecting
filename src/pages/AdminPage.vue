@@ -11,9 +11,12 @@
       <div class="admin_view_layer">
         <h2>"{{taskName}}" 收集情况</h2>
         <h3>{{message}}</h3>
-        <label>修改任务名：</label>
-        <input v-model.lazy="taskName" style="margin: 0.5rem 0">
-        <button>修改</button>
+        <label>本次任务名：</label>
+        <input v-model.lazy="taskName" style="margin: 0.5rem 0"><br>
+        <label>新命名格式：</label>
+        <input v-model.lazy="namingRules" style="margin: 0.5rem 0">
+        <p style="color: grey">命名格式支持 姓名、学号、身份证号、任务名 四种模板；命名模板之间可以用任何可作为文件名使用的符号连接（例如空格）</p>
+        <button @click="updateTask">修改任务名及命名格式</button>
         <p>未上传名单：{{nameList}}</p>
         <h3>目前收集到的所有文件</h3>
         <button>下载所有</button>
@@ -32,6 +35,7 @@ export default {
       haveToken: false,
       message: '欢迎',
       taskName:'文件',
+      namingRules:'姓名 学号',
       password: '',
       isLogin: false,
       nameList: '空'
@@ -57,6 +61,7 @@ export default {
         }).then (res => {
           if(res.data.status === 'success') {
             this.taskName = res.data.titleName
+            this.namingRules = res.data.namingRules
             this.message = ''
             if(res.data.nameList.length > 0){
               this.nameList = res.data.nameList + '，共 ' + res.data.nameList.length +' 人'
@@ -82,15 +87,29 @@ export default {
         }
       }
       alert('下次该输密码重新登录噜')
+    },
+    updateTask() {
+      if (this.namingRules !== '' && this.taskName !== '') {
+        const reg = new RegExp('[\\\\/:*?\"<>|]')
+        if (reg.test(this.namingRules)) {
+          this.axios.post(this.backEndHost + 'setTask', {
+            titleName: this.titleName,
+            namingRules: this.namingRules,
+            withCredentials: true
+          }).then({
+            // todo 对服务器的返回进行处理,一大堆 if else
+          })
+        } else {
+          alert('命名规则中存在不合理的字符，建议重修计算机基础')
+        }
+      } else {
+        alert('任务名和命名规则间有什么东西没填好啦')
+      }
+    },
+    downloadFile() {
+      this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
+      // todo 下载当前任务文件
     }
-  },
-  updateTask() {
-    this.message = ''
-    // todo 更新任务名称
-  },
-  downloadFile() {
-    this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
-    // todo 下载当前任务文件
   }
 }
 </script>

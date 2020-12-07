@@ -7,7 +7,6 @@ const token = md5(config.admin.password + config.admin.salt)
 
 function login (req, res) {
     if (req.body.pw === config.admin.password || req.cookies.token === token) {
-        console.log('user "' + req.connection.remoteAddress + '" login')
         const data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
 
         let nameArray = []
@@ -21,6 +20,7 @@ function login (req, res) {
         res.send({
             status: 'success',
             titleName: data.titleName,
+            namingRules: data.namingRules,
             nameList: nameArray
         })
     } else {

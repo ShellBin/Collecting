@@ -6,25 +6,36 @@ const md5 = require('md5')
 const token = md5(config.admin.password + config.admin.salt)
 
 function setTask (req, res) {
+    // 访问合法性判断
     if (req.cookies.token === token) {
         const data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
-
+        // POST 判空
         if (req.body.titleName !== '' && req.body.namingRules !== '') {
-            // 修改 titleName
-            data.titleName = req.body.titleName
-            // 修改 namingRules
-            data.namingRules = req.body.namingRules
-        }
-        // 写回信息
-        fs.writeFile('data.json', JSON.stringify(data), function (err){
-            if(err) {
-                console.error(err)
+            const newString = req.body.namingRules
+            // 姓名、学号、身份证号、任务名 必须有一项
+            if((newString.indexOf('姓名') + newString.indexOf('学号') + newString.indexOf('身份证号') + newString.indexOf('任务名')) > -1) {
+                data.namingRules = req.body.namingRules
+                data.titleName = req.body.titleName
+                fs.writeFile('data.json', JSON.stringify(data), function (err){
+                    if(err) {
+                        console.error(err)
+                    }
+                })
+                res.send({
+                    status: 'success'
+                })
+            } else {
+                res.send({
+                    status: 'error',
+                    message: 'invalid namingRules'
+                })
             }
-        })
-
-        res.send({
-            status: 'success',
-        })
+        } else {
+            res.send({
+                status: 'error',
+                message: 'empty'
+            })
+        }
     } else {
         res.send({
             status: 'ok',
