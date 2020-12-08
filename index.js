@@ -14,7 +14,7 @@ const middleware = webpackMiddleware(compiler, {
   watchOptions: {
     // Due to iOS devices memory constraints
     // disabling file watching is recommended
-    ignored: /.*/
+    // ignored: /.*/
   }
 });
 app.use(middleware)

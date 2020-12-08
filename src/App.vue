@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <div class="admin-view-button" @click="isAdmin = !isAdmin"><span v-show="isAdmin">返回</span><span v-show="!isAdmin">登录</span></div>
-    <template v-if="!isAdmin"> <IndexPage/> </template>
-    <template v-if="isAdmin"> <AdminPage/> </template>
+    <div class="background"></div>
+    <div class="admin-view-button" @click="isAdmin = !isAdmin" role="button"><span v-show="isAdmin">戳这边返回！</span><span v-show="!isAdmin">管理点这儿！</span></div>
+    <div class="content">
+      <template v-if="!isAdmin"> <IndexPage/> </template>
+      <template v-if="isAdmin"> <AdminPage/> </template>
+    </div>
   </div>
 </template>
 
@@ -28,22 +31,46 @@ export default {
 </script>
 
 <style>
-#app {
-  display: flex;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  height: 100%;
 }
 a {
   color: #42b983;
 }
 
-.admin-view-button {
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  height: 100%;
+}
+
+.background {
   position: absolute;
-  right: 50px;
-  bottom: 50px;
+  z-index: -20;
+  top: 0; right: 0; bottom: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom right, #d5e6ee, #81a3aa);
+}
+.admin-view-button {
+  z-index: 100;
+  color: white;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+.content {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 </style>

@@ -1,37 +1,35 @@
 <template>
   <div class="index_page">
-    <div id="upload_layer" v-if="haveAnyTask">
-      <h2 class="title">"{{titleName}}" 收集</h2>
-      <div class="info">
-        <p class="intro">是一项仅面向 {{className}} 的轻量服务</p>
-        <p class="intro">这样收集者会轻松一些（鞠躬）</p>
+    <div class="update-form">
+      <div class="alert_layer" v-if="!haveAnyTask">
+        <h2>当前没有文件需要上传</h2>
+        <p>或网速太慢获取不到任务（小声</p>
       </div>
 
-      <div v-show="!haveStarted" class="forms">
-        <label>学号后三位：</label>
-        <input v-model.lazy="stuId" style="margin: 1rem 0">
-        <br>
-        <input type="file" ref="file">
+      <div class="upload_layer" v-if="haveAnyTask">
+        <div>
+          <h2 class="title">"{{ titleName }}" 收集</h2>
+          <div v-show="!haveStarted" class="forms">
+            <div style="text-align: left; padding-left: 2rem">
+              <label>学号后三位：</label><br>
+              <input v-model.lazy="stuId" style="margin: 0.5rem 0" maxlength="3">
+            </div>
+            <input type="file" ref="file">
+          </div>
+        </div>
+        <div>
+          <h3>{{ displayStatus }}</h3>
+          <h4>{{ displayMessage }}</h4>
+        </div>
+        <div class="info-and-button">
+          <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart"><span>上传文件</span></div>
+          <div class="button start" role="button" v-show="isError" @click="back"><span>返回</span></div>
+          <p>第二次提交将会覆盖上一次的提交</p>
+          <p class="intro">仅面向 {{ className }} 使用</p>
+          <p class="intro">自动重命名打包下载，收集更方便</p>
+        </div>
       </div>
-
-      <h3>状态：{{ displayStatus }}</h3>
-      <h4>{{ displayMessage }}</h4>
-
-      <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart">
-        <span>上传文件</span>
-      </div>
-      <div class="button start" role="button" v-show="isError" @click="back">
-        <span>返回</span>
-      </div>
-
-      <p>第二次提交将会覆盖上一次的提交</p>
     </div>
-
-   <div id="alert_layer" v-if="!haveAnyTask">
-     <h2>当前没有文件需要上传</h2>
-     <p>或网速太慢获取不到任务（小声</p>
-   </div>
-
   </div>
 </template>
 
@@ -48,7 +46,7 @@ export default {
       haveStarted: false,
       isError: false,
       stuId: '',
-      displayStatus: '等待上传中',
+      displayStatus: '等待选择文件上传中',
       displayMessage : ''
     }
   },
@@ -127,7 +125,7 @@ export default {
     back () {
       this.isError = false
       this.haveStarted = false
-      this.displayStatus = '等待上传中'
+      this.displayStatus = '等待选择文件上传中'
       this.displayMessage = '希望这次你能成功上传'
     }
   }
@@ -136,26 +134,62 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+input{
+  outline-style: none;
+  padding: 0.4rem;
+  width: 10rem;
+  background-color: #f7f7f7;
+  border: none;
+}
 .index_page {
-  width: 100%
+  width: 85%;
+  height: 85%;
+  background: white url("../assets/background.jpg") no-repeat bottom left;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 9px;
+}
+.update-form {
+  margin-top: 5rem;
+  margin-right: 15vw;
+}
+@media (max-width: 1000px) and (orientation: portrait) {
+  .index_page {
+    justify-content: center;
+  }
+  .update-form {
+    margin-top: 8vw;
+    margin-right: 0;
+  }
+  .upload_layer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 .button {
-  border: 1px solid #2c3e50;
+  border: 4px solid white;
+  background-color: #A8DBD6;
   border-radius: 9px;
   padding: 0.5rem;
 }
 .start {
+  font-weight: bolder;
+  color: white;
   width: 10rem;
   margin: 2rem auto 0.7rem;
   font-size: 1.2rem;
 }
-.info {
-  margin: 1rem auto 2rem;
+.info-and-button {
+  margin: 7vw auto 3vw;
 }
 .forms {
-  margin: 1.2rem auto 2rem;
+  margin: 2vw auto 7vw;
 }
 .intro {
   margin: 0;
+  font-size: 0.8rem;
 }
 </style>

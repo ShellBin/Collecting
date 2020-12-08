@@ -137,6 +137,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .admin_page {
-  width: 100%
+  /*width: 100%*/
 }
 </style>
