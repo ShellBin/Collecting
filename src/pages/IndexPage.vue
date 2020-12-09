@@ -10,11 +10,12 @@
         <div>
           <h2 class="title">"{{ titleName }}" 收集</h2>
           <div v-show="!haveStarted" class="forms">
-            <div style="text-align: left; padding-left: 2rem">
+            <div style="text-align: left; padding-left: 2.2rem">
               <label>学号后三位：</label><br>
-              <input v-model.lazy="stuId" style="margin: 0.5rem 0" maxlength="3">
+              <input v-model.lazy="stuId" maxlength="3" class="input-text">
             </div>
-            <input type="file" ref="file">
+            <input type="file" id="file" ref="file" class="input-file" @change="fileChanged">
+            <label for="file"></label>
           </div>
         </div>
         <div>
@@ -24,7 +25,7 @@
         <div class="info-and-button">
           <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart"><span>上传文件</span></div>
           <div class="button start" role="button" v-show="isError" @click="back"><span>返回</span></div>
-          <p>第二次提交将会覆盖上一次的提交</p>
+          <p style="margin-bottom: 0.4rem">第二次提交将会覆盖上一次的提交</p>
           <p class="intro">仅面向 {{ className }} 使用</p>
           <p class="intro">自动重命名打包下载，收集更方便</p>
         </div>
@@ -46,14 +47,19 @@ export default {
       haveStarted: false,
       isError: false,
       stuId: '',
-      displayStatus: '等待选择文件上传中',
-      displayMessage : ''
+      displayStatus: '点击上方图标添加文件',
+      displayMessage : '',
     }
   },
   mounted() {
-    this.fetchTask()
+      this.fetchTask()
   },
   methods: {
+    fileChanged () {
+      if (this.$refs.file.files[0]) {
+        this.displayStatus = '已选择 ' + this.$refs.file.files[0].name
+      }
+    },
     uploadStart () {
       const thisFile = this.$refs.file.files[0]
       if (this.haveStarted === true) {
@@ -125,7 +131,7 @@ export default {
     back () {
       this.isError = false
       this.haveStarted = false
-      this.displayStatus = '等待选择文件上传中'
+      this.displayStatus = '点击上方图标添加文件'
       this.displayMessage = '希望这次你能成功上传'
     }
   }
@@ -134,13 +140,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-input{
-  outline-style: none;
-  padding: 0.4rem;
-  width: 10rem;
-  background-color: #f7f7f7;
-  border: none;
-}
 .index_page {
   width: 85%;
   height: 85%;
@@ -150,9 +149,34 @@ input{
   justify-content: flex-end;
   border-radius: 9px;
 }
+.input-file {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.input-file + label {
+  margin-top: 2vw;
+  background: url("../assets/select.png") no-repeat;
+  background-size: 3rem 3rem;
+  width: 3rem;
+  height: 3rem;
+  display: inline-block;
+  cursor: pointer;
+}
+.input-text {
+  border-radius: 9px;
+  outline-style: none;
+  padding: 0.6rem;
+  margin: 0.6rem 0;
+  width: 10rem;
+  background-color: #d4e7e6;
+  border: none;
+}
 .update-form {
-  margin-top: 5rem;
-  margin-right: 15vw;
+  margin: 6rem 15vw 0 0;
 }
 @media (max-width: 1000px) and (orientation: portrait) {
   .index_page {
@@ -169,24 +193,25 @@ input{
     justify-content: space-between;
   }
 }
-.button {
-  border: 4px solid white;
-  background-color: #A8DBD6;
-  border-radius: 9px;
-  padding: 0.5rem;
+@media (max-width: 350px) and (orientation: portrait) {
+  .forms {
+    margin: 2vw auto 4vw;
+  }
+  .input-file + label {
+    background-size: 2rem 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
 }
 .start {
-  font-weight: bolder;
-  color: white;
   width: 10rem;
   margin: 2rem auto 0.7rem;
-  font-size: 1.2rem;
 }
 .info-and-button {
-  margin: 7vw auto 3vw;
+  margin: 6vw auto 3vw;
 }
 .forms {
-  margin: 2vw auto 7vw;
+  margin: 2vw auto 6vw;
 }
 .intro {
   margin: 0;

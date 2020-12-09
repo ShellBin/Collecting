@@ -64,6 +64,7 @@ a {
   position: absolute;
   right: 20px;
   bottom: 20px;
+  cursor: pointer;
 }
 .content {
   text-align: center;
@@ -72,5 +73,14 @@ a {
   align-items: center;
   height: 100%;
 }
-
+.button {
+  border: 4px solid white;
+  background-color: #A8DBD6;
+  color: white;
+  border-radius: 9px;
+  font-weight: bolder;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
 </style>
