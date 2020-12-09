@@ -1,5 +1,6 @@
 <template>
   <div class="admin_page">
+
     <div class="login_layer" v-if="!isLogin">
       <h2>管理员登录</h2>
       <h3>{{message}}</h3>
@@ -7,33 +8,35 @@
       <input type="password" v-model.lazy="password" @keyup.enter="login" class="input-text">
       <div role="button" class="button login-button" @click="login">登录</div>
     </div>
+
     <div class="admin_layer" v-if="isLogin">
       <template v-if="!haveAnyTask">
         <h2>当前没有收集任务</h2>
         <h3>新建一个吧</h3>
-        <div role="button" class="button" @click="login">新建任务</div>
+        <div role="button" class="button" @click="creatNewTask">新建任务</div>
       </template>
-      <template v-if="haveAnyTask">
-        <div class="admin_view_layer">
+
+        <div class="admin_view_layer" v-if="haveAnyTask">
           <h2>"{{taskName}}" 收集情况</h2>
           <h3>{{message}}</h3>
-          <label>本次任务名：</label>
-          <input v-model.lazy="taskName" style="margin: 0.5rem 0"><br>
-          <label>新命名格式：</label>
-          <input v-model.lazy="namingRules" style="margin: 0.5rem 0"><br>
-          <label>删除当前收集的文件</label>
-          <input type="checkbox" v-model="deleteFiles"><br>
-          <span v-show="!deleteFiles">勾选后会删除服务器端当前的文件</span>
-          <span v-show="deleteFiles">删除后服务器端文件将无法恢复</span>
-          <p style="color: grey">命名格式支持 姓名、学号、身份证号、任务名 四种模板；命名模板之间可以用任何可作为文件名使用的符号连接（例如空格）</p>
-          <button @click="updateTask">修改任务名及命名格式</button>
-          <p>未上传名单：{{nameList}}</p>
-          <h3>目前收集到的所有文件</h3>
-          <button>下载所有</button>
-          <p>服务器端文件将在最后一次下载后12小时内自动删除，请妥善保存文件</p>
+
+          <template v-if="newTaskMode">
+            <label>本次任务名：</label>
+            <input v-model.lazy="taskName" style="margin: 0.5rem 0"><br>
+            <label>新命名格式：</label>
+            <input v-model.lazy="namingRules" style="margin: 0.5rem 0"><br>
+            <p style="color: grey">命名格式支持 姓名、学号、身份证号、任务名 四种模板；命名模板之间可以用任何可作为文件名使用的符号连接（例如空格）</p>
+            <div role="button" @click="creatNewTask" class="button creat-new-task"><span>新建</span></div>
+          </template>
+
+          <template v-if="!newTaskMode">
+            <p style="max-width: 60vw">未上传名单：{{nameList}}</p>
+            <h3>任务管理</h3>
+            <button>下载已收集文件</button><button>关闭任务删除文件</button>
+            <p>收集任务将在最后一次下载12小时内自动关闭，届时文件也将被删除，请妥善保存文件</p>
+          </template>
         </div>
-      </template>
-      <button @click="clearAllCookie">退出登录状态</button>
+      <div role="button" @click="clearAllCookie" style="margin-top: 3rem;"><span>退出登录状态</span></div>
     </div>
   </div>
 </template>
@@ -45,6 +48,8 @@ export default {
     return {
       haveToken: false,
       haveAnyTask: false,
+      newTaskMode: false,
+      closeTask: false,
       message: '欢迎',
       taskName:'文件',
       namingRules:'姓名 学号',
@@ -114,7 +119,7 @@ export default {
             withCredentials: true
           }).then(res => {
             if (res.data.status === 'success') {
-              this.message = '修改成功'
+              this.message = '操作成功'
               this.deleteFiles = false
             } else {
               switch (res.data.message) {
@@ -139,6 +144,17 @@ export default {
     downloadFile() {
       this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
       // todo 下载当前任务文件
+    },
+    creatNewTask () {
+      if (this.newTaskMode) {
+        this.updateTask()
+        setTimeout(() => {
+          this.newTaskMode = false
+          this.message = ''
+        }, 800)
+      }
+      this.newTaskMode = true
+      this.haveAnyTask = true
     }
   }
 }
@@ -162,5 +178,9 @@ export default {
   padding: 0.4rem;
   margin: 2rem auto 0 auto;
   border: 2px solid white;
+}
+.creat-new-task {
+  width: 6rem;
+  margin: 2rem auto 0 auto;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="index_page">
     <div class="update-form">
+
       <div class="alert_layer" v-if="!haveAnyTask">
         <h2>当前没有文件需要上传</h2>
         <p>或网速太慢获取不到任务（小声</p>
@@ -9,6 +10,7 @@
       <div class="upload_layer" v-if="haveAnyTask">
         <div>
           <h2 class="title">"{{ titleName }}" 收集</h2>
+
           <div v-show="!haveStarted" class="forms">
             <div style="text-align: left; padding-left: 2.2rem">
               <label>学号后三位：</label><br>
