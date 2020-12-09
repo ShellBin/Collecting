@@ -30,10 +30,10 @@
           </template>
 
           <template v-if="!newTaskMode">
-            <p style="max-width: 60vw">未上传名单：{{nameList}}</p>
+            <p style="max-width: 40rem; align-items: center; margin-bottom: 6rem">未上传名单：{{nameList}}</p>
             <h3>任务管理</h3>
-            <button>下载已收集文件</button><button>关闭任务删除文件</button>
-            <p>收集任务将在最后一次下载12小时内自动关闭，届时文件也将被删除，请妥善保存文件</p>
+            <button @click="downloadFile">下载已收集文件</button>
+            <button @click="deleteTask">关闭任务并删除文件</button>
           </template>
         </div>
       <div role="button" @click="clearAllCookie" style="margin-top: 3rem;"><span>退出登录状态</span></div>
@@ -49,11 +49,12 @@ export default {
       haveToken: false,
       haveAnyTask: false,
       newTaskMode: false,
-      closeTask: false,
+
+      deleteFiles: false,
+
       message: '欢迎',
       taskName:'文件',
       namingRules:'姓名 学号',
-      deleteFiles: false,
       password: '',
       isLogin: false,
       nameList: '空'
@@ -116,6 +117,7 @@ export default {
             titleName: this.taskName,
             namingRules: this.namingRules,
             deleteFiles: this.deleteFiles,
+            haveAnyTask: this.haveAnyTask,
             withCredentials: true
           }).then(res => {
             if (res.data.status === 'success') {
@@ -141,9 +143,17 @@ export default {
         this.message = '任务名和命名规则间有什么东西没填好啦'
       }
     },
-    downloadFile() {
+    downloadFile () {
       this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
       // todo 下载当前任务文件
+    },
+    deleteTask () {
+      this.deleteFiles = true
+      this.updateTask()
+      setTimeout(() => {
+        this.newTaskMode = true
+        this.message = ''
+      }, 800)
     },
     creatNewTask () {
       if (this.newTaskMode) {
@@ -155,6 +165,7 @@ export default {
       }
       this.newTaskMode = true
       this.haveAnyTask = true
+      this.updateTask()
     }
   }
 }

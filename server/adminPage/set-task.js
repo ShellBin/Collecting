@@ -18,14 +18,16 @@ function setTask (req, res) {
             if((newString.indexOf('姓名') + newString.indexOf('学号') + newString.indexOf('身份证号') + newString.indexOf('任务名')) !== -1) {
                 data.namingRules = req.body.namingRules
                 data.titleName = req.body.titleName
+                data.haveAnyTask = Boolean(req.body.haveAnyTask)
+                if (Boolean(req.body.deleteFiles)) {
+                    deleteFiles()
+                    data.haveAnyTask = false
+                }
                 fs.writeFile('data.json', JSON.stringify(data), function (err){
                     if(err) {
                         console.error(err)
                     }
                 })
-                if (req.body.deleteFiles) {
-                    deleteFiles()
-                }
                 res.send({
                     status: 'success'
                 })
