@@ -30,6 +30,6 @@ router.post('/login',adminPage.login)
 // API: 信息修改操作
 router.post('/setTask',adminPage.setTask)
 // API: 文件下载操作
-// router.get('/downloadFiles',adminPage.downloadFiles)
+router.get('/downloadFiles',adminPage.downloadFiles)
 
 console.log('Server is running at '+config.http.port+' port, hostname/api/v1/')

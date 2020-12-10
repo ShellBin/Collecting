@@ -7,7 +7,7 @@ const token = md5(config.admin.password + config.admin.salt)
 
 function downloadFiles (req, res) {
     if (req.cookies.token === token) {
-        // todo 压缩并下载
+        // todo 压缩目录并下载
         // res.download
     } else {
         res.send({

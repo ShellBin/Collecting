@@ -30,7 +30,7 @@ function uploadFile (req, res) {
 
         stuData.stuInfo[req.headers.stuid].haveUpload = true
 
-        fs.writeFile('data.json', JSON.stringify(stuData), function (err){
+        fs.writeFile(path.resolve(__dirname,"../data.json"), JSON.stringify(stuData), function (err){
             if(err) {
                 console.error(err)
             }

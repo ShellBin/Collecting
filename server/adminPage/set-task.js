@@ -19,11 +19,12 @@ function setTask (req, res) {
                 data.namingRules = req.body.namingRules
                 data.titleName = req.body.titleName
                 data.haveAnyTask = Boolean(req.body.haveAnyTask)
+                // todo 将任务状态标记为真
                 if (Boolean(req.body.deleteFiles)) {
                     deleteFiles()
                     data.haveAnyTask = false
                 }
-                fs.writeFile('data.json', JSON.stringify(data), function (err){
+                fs.writeFile(path.resolve(__dirname,"../data.json"), JSON.stringify(data), function (err){
                     if(err) {
                         console.error(err)
                     }
