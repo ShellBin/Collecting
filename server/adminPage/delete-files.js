@@ -1,6 +1,5 @@
 const config = require('../config')
 const fs = require('fs')
-const path = require('path')
 
 function delAllFiles(path){
     let files = [];
@@ -21,12 +20,16 @@ function delAllFiles(path){
 
 function deleteFiles() {
     console.log('DELETE FILE AND TASK')
-    let data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
-    for (key in data.stuInfo) {
-        data.stuInfo[key].haveUpload = false
+    const stuData = JSON.parse(fs.readFileSync("data.json", 'utf-8'))
+    for (let key in stuData.stuInfo) {
+        stuData.stuInfo[key].haveUpload = false
     }
-    // todo 改好的 json 存不进去？
-    fs.writeFileSync(path.resolve(__dirname,"../data.json"), JSON.stringify(data))
+    console.log(JSON.stringify(stuData))
+    fs.writeFile("data.json", JSON.stringify(stuData), function (err){
+        if(err) {
+            console.error(err)
+        }
+    })
 
     // 删除收集目录下所有文件
     delAllFiles(config.fs.path)

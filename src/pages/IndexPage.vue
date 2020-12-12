@@ -15,6 +15,7 @@
             <div style="text-align: left; padding-left: 2.2rem">
               <label>学号后三位：</label><br>
               <input v-model.lazy="stuId" maxlength="3" class="input-text">
+<!--              todo 文件名过长时布局错误，背景色和上传图标不易区分-->
             </div>
             <input type="file" id="file" ref="file" class="input-file" @change="fileChanged">
             <label for="file"></label>
@@ -160,8 +161,9 @@ export default {
   z-index: -1;
 }
 .input-file + label {
-  margin-top: 2vw;
-  background: url("../assets/select.png") no-repeat;
+  margin: 2vw 1vw 1vw 1vw;
+  border-radius: 9px;
+  background: white url("../assets/select.png") no-repeat;
   background-size: 3rem 3rem;
   width: 3rem;
   height: 3rem;

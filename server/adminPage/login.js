@@ -10,7 +10,7 @@ function login (req, res) {
         const data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
 
         let nameArray = []
-        for (key in data.stuInfo) {
+        for (let key in data.stuInfo) {
             if(data.stuInfo[key].haveUpload === false) {
                 nameArray.push(data.stuInfo[key].stuName)
             }
