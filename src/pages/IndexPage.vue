@@ -15,7 +15,6 @@
             <div style="text-align: left; padding-left: 2.2rem">
               <label>学号后三位：</label><br>
               <input v-model.lazy="stuId" maxlength="3" class="input-text">
-<!--              todo 文件名过长时布局错误，背景色和上传图标不易区分-->
             </div>
             <input type="file" id="file" ref="file" class="input-file" @change="fileChanged">
             <label for="file"></label>
@@ -60,7 +59,11 @@ export default {
   methods: {
     fileChanged () {
       if (this.$refs.file.files[0]) {
-        this.displayStatus = '已选择 ' + this.$refs.file.files[0].name
+        if(this.$refs.file.files[0].name.length < 12) {
+          this.displayStatus = '已选择 ' + this.$refs.file.files[0].name
+        } else {
+          this.displayStatus = '已选择 ' + this.$refs.file.files[0].name.substring(0,12)+'...'
+        }
       }
     },
     uploadStart () {
@@ -161,9 +164,10 @@ export default {
   z-index: -1;
 }
 .input-file + label {
-  margin: 2vw 1vw 1vw 1vw;
+  margin: 2vw 0 0 0;
+  padding: 0.6rem;
   border-radius: 9px;
-  background: white url("../assets/select.png") no-repeat;
+  background: white url("../assets/select.png") no-repeat center;
   background-size: 3rem 3rem;
   width: 3rem;
   height: 3rem;
