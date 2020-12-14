@@ -16,7 +16,7 @@ function login (req, res) {
             }
         }
 
-        res.cookie('token',token,{maxAge:500000})
+        res.cookie('token',token,{maxAge:1296000})
         res.send({
             status: 'success',
             haveAnyTask: data.haveAnyTask,

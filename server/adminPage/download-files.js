@@ -7,7 +7,7 @@ const token = md5(config.admin.password + config.admin.salt)
 
 function downloadFiles (req, res) {
     if (req.cookies.token === token) {
-        const zipStream  =fs.createWriteStream('pack.zip')
+        const zipStream = fs.createWriteStream('pack.zip')
         const archive = archiver('zip', {
             store: true
         })
@@ -20,16 +20,20 @@ function downloadFiles (req, res) {
         archive.pipe(zipStream)
         archive.directory(config.fs.path, false)
 
-        archive.on('finish', () => {
-            console.log('create download task')
-            res.download('./pack.zip',function (err) {
+        archive.on('end', () => setTimeout(() => {
+            creatStream()
+        }, 200))
+
+        archive.finalize()
+
+        function creatStream() {
+            console.log('create download stream')
+            res.download('./pack.zip',(err) => {
                 if(err){
                     console.error(err)
                 }
             })
-        })
-
-        archive.finalize()
+        }
     } else {
         res.send({
             status: 'ok',

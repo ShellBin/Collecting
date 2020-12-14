@@ -161,12 +161,26 @@ export default {
     },
     downloadFile () {
       if (!this.isDownloading) {
-        this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
+        this.message = '文件正在服务器端打包并下载至浏览器，请稍等'
         this.isDownloading = true
         this.axios.get(this.backEndHost + 'downloadFiles', {
+          responseType: 'blob',
           withCredentials: true
         }).then (res => {
-          this.message = '准备下载...'
+          this.message = '下载完成'
+          const data = res.data
+          if (!data) {
+            this.message = '出错，请稍后重试'
+            return
+          }
+          const thisFile = new Blob([data], {type:'application/zip'})
+          let downLink = document.createElement('a')
+          downLink.href = URL.createObjectURL(thisFile)
+          document.body.appendChild(downLink)
+          downLink.click()
+          document.body.removeChild(downLink)
+        }).catch((error) => {
+          console.log(error)
         })
         setTimeout(() => {
           this.isDownloading = false
