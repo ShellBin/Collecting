@@ -22,13 +22,15 @@ function setTask (req, res) {
                 if (Boolean(req.body.deleteFiles)) {
                     deleteFiles()
                     data.haveAnyTask = false
-                } else {
-                    fs.writeFile(path.resolve(__dirname,"../data.json"), JSON.stringify(data), function (err){
-                        if(err) {
-                            console.error(err)
-                        }
-                    })
+                    for (const key in data.stuInfo) {
+                        data.stuInfo[key].haveUpload = false
+                    }
                 }
+                fs.writeFile(path.resolve(__dirname,"../data.json"), JSON.stringify(data), function (err){
+                    if(err) {
+                        console.error(err)
+                    }
+                })
                 res.send({
                     status: 'success'
                 })

@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const fs = require('fs')
 const multer = require('multer')
 const cookieParser = require('cookie-parser')
 
@@ -11,7 +12,11 @@ const server = express()
 const router = express.Router()
 const upload = multer({dest: './uploads-temp/'})
 
-// todo 初始化下载文件夹 uploads
+fs.stat(config.fs.path, (err, stats) => {
+    if (err) {
+        fs.mkdirSync(config.fs.path)
+    }
+})
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))

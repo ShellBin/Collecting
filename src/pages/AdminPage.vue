@@ -50,6 +50,7 @@ export default {
       haveAnyTask: false, // 是否存在任务
       newTaskMode: false, // 是否处于新建任务状态
       deleteFiles: false, // 是否打算删除文件
+      isDownloading: false,
       message: '欢迎', // 注释
       taskName:'文件', // 任务名称
       namingRules:'姓名 学号', // 命名格式
@@ -159,13 +160,23 @@ export default {
       }, 800)
     },
     downloadFile () {
-      this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
-      this.axios.get(this.backEndHost + 'downloadFiles', {
-        withCredentials: true
-      }).then (res => {
-        this.message = '准备下载...'
-        // todo 对文件下载事件进行处理
-      })
+      if (!this.isDownloading) {
+        this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
+        this.isDownloading = true
+        this.axios.get(this.backEndHost + 'downloadFiles', {
+          withCredentials: true
+        }).then (res => {
+          this.message = '准备下载...'
+        })
+        setTimeout(() => {
+          this.isDownloading = false
+        },1000*5)
+      } else {
+        this.message = '不要点这么快啦'
+        setTimeout(() => {
+          this.message = '文件正在服务器端打包，下载将在稍后开始，请稍等'
+        },1000)
+      }
     }
   }
 }

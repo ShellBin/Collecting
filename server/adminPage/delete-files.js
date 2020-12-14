@@ -20,21 +20,12 @@ function delAllFiles(path){
 
 function deleteFiles() {
     console.log('DELETE FILE AND TASK')
-    const stuData = JSON.parse(fs.readFileSync("data.json", 'utf-8'))
-    for (let key in stuData.stuInfo) {
-        stuData.stuInfo[key].haveUpload = false
-    }
-    console.log(JSON.stringify(stuData))
-    fs.writeFile("data.json", JSON.stringify(stuData), function (err){
-        if(err) {
-            console.error(err)
-        }
-    })
-
     // 删除收集目录下所有文件
     delAllFiles(config.fs.path)
     // 删除所有传输临时文件
     delAllFiles('./uploads-temp/')
+    // 删除上次生成的压缩包
+    delAllFiles('pack.zip')
 }
 
 module.exports = deleteFiles

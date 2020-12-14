@@ -1,14 +1,35 @@
 const config = require('../config')
+const archiver = require('archiver')
 const fs = require('fs')
-const path = require('path')
 const md5 = require('md5')
 
 const token = md5(config.admin.password + config.admin.salt)
 
 function downloadFiles (req, res) {
     if (req.cookies.token === token) {
-        // todo 压缩目录并下载
-        // res.download
+        const zipStream  =fs.createWriteStream('pack.zip')
+        const archive = archiver('zip', {
+            store: true
+        })
+        archive.on('warning', () => {
+            res.send({
+                status: 'error',
+                message: '压缩出错，请联系管理员'
+            })
+        })
+        archive.pipe(zipStream)
+        archive.directory(config.fs.path, false)
+
+        archive.on('finish', () => {
+            console.log('create download task')
+            res.download('./pack.zip',function (err) {
+                if(err){
+                    console.error(err)
+                }
+            })
+        })
+
+        archive.finalize()
     } else {
         res.send({
             status: 'ok',
