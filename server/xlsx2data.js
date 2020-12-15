@@ -20,14 +20,14 @@ function process() {
     const list = xlsx.parse('./list.xlsx')[0].data
 
     list.forEach((i) => {
-        const key = toString(i[0]).substring(i[0].length - 3)
+        const key = i[0].slice(-3)
         data.stuInfo[key] = {}
 
         data.stuInfo[key].stuName = i[1]
         data.stuInfo[key].idCard = i[2]
         data.stuInfo[key].fullStuId = i[0]
         data.stuInfo[key].haveUpload = false
-        console.log(i[1] + '信息已添加')
+        console.log(i[1] + '同学（学号前三位'  + key + '） 信息已添加')
     })
 
     fs.writeFileSync('./data.json', JSON.stringify(data))
