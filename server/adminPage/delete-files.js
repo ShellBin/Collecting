@@ -25,7 +25,11 @@ function deleteFiles() {
     // 删除所有传输临时文件
     delAllFiles('./uploads-temp/')
     // 删除上次生成的压缩包
-    fs.unlinkSync('pack.zip')
+    fs.unlink('pack.zip',(err => {
+        if (err) {
+            console.log('此前未创建过下载')
+        }
+    }))
 }
 
 module.exports = deleteFiles

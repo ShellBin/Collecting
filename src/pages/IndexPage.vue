@@ -29,7 +29,7 @@
           <div class="button start" role="button" v-show="isError" @click="back"><span>返回</span></div>
           <p style="margin-bottom: 0.4rem">第二次提交将会覆盖上一次的提交</p>
           <p class="intro">仅面向 {{ className }} 使用</p>
-          <p class="intro">自动重命名打水印一键下载，收集更方便</p>
+          <p class="intro">自动重命名压缩一键下载，收集更方便</p>
         </div>
       </div>
     </div>
