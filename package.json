@@ -1,5 +1,9 @@
 {
   "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack"
+  },
   "dependencies": {
     "@babel/core": "7.x.x",
     "@babel/preset-env": "7.x.x",
@@ -19,7 +23,11 @@
     "vue-loader": "^15.7.1",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "4.15.*",
+    "webpack": "^4.15.1",
+    "webpack-dev": "^1.1.1",
     "webpack-dev-middleware": "3.7.x"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.2.0"
   }
 }

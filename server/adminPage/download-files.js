@@ -20,6 +20,11 @@ function downloadFiles (req, res) {
         archive.pipe(zipStream)
         archive.directory(config.fs.path, false)
 
+        // 没有办法通过异步或回调正常跟踪压缩进度。使用时总会使未完成的文件损坏
+        // 所以做了 200ms 的延时来完成正常的下载
+
+        // archive.finalize().then(creatStream())
+
         archive.on('end', () => setTimeout(() => {
             creatStream()
         }, 200))

@@ -25,7 +25,7 @@ function deleteFiles() {
     // 删除所有传输临时文件
     delAllFiles('./uploads-temp/')
     // 删除上次生成的压缩包
-    delAllFiles('pack.zip')
+    fs.unlinkSync('pack.zip')
 }
 
 module.exports = deleteFiles

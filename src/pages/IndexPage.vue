@@ -29,7 +29,7 @@
           <div class="button start" role="button" v-show="isError" @click="back"><span>返回</span></div>
           <p style="margin-bottom: 0.4rem">第二次提交将会覆盖上一次的提交</p>
           <p class="intro">仅面向 {{ className }} 使用</p>
-          <p class="intro">自动重命名打包下载，收集更方便</p>
+          <p class="intro">自动重命名打水印一键下载，收集更方便</p>
         </div>
       </div>
     </div>
@@ -184,7 +184,7 @@ export default {
   border: none;
 }
 .update-form {
-  margin: 6rem 15vw 0 0;
+  margin: 4vw 15vw 0 0;
 }
 @media (max-width: 1000px) and (orientation: portrait) {
   .index_page {
@@ -195,7 +195,7 @@ export default {
     margin-right: 0;
   }
   .upload_layer {
-    height: 100%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

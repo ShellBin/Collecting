@@ -1,7 +1,6 @@
 module.exports = {
     http: {
         port: 8001,
-        host: ''
     },
     fs: {
         path: './uploads/'
