@@ -28,10 +28,10 @@ https://blog.shellbin.me/?p=1690
 2. 在项目目录下执行 ```npm install```
 3. 编辑项目目录下的 ```config.js``` 来进行配置，
 4. 将同学名单 Excel 按以下要求存放在项目目录中以待读取
-
+![image](https://github.com/ShellBin/Collecting/blob/main/IMG/001.png?raw=true)
 5. 在项目目录下执行 ```node index.js``` 项目就开始运行了！
 
-## 如果想让项目在后台也能一直运行的话：
+## 如果需要项目在服务器后台运行的话：
 
 * 运行命令 ```npm install -g forever``` 安装 forever
 * 在本项目目录下执行 ```forever start index.js```
