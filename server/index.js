@@ -4,6 +4,8 @@ const fs = require('fs')
 const multer = require('multer')
 const cookieParser = require('cookie-parser')
 
+const xlsx2data = require('./xlsx2data')
+
 const config = require('./config')
 const indexPage = require('./indexPage')
 const adminPage = require('./adminPage')
@@ -17,6 +19,7 @@ fs.stat(config.fs.path, (err, stats) => {
         fs.mkdirSync(config.fs.path)
     }
 })
+xlsx2data()
 
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: false }))
@@ -24,7 +27,8 @@ server.use(cookieParser())
 
 server.listen(config.http.port)
 server.use('/api/v1/',router)
-server.use("/static",express.static("./public"));
+// 静态页面托管
+server.use("/",express.static("./static"));
 
 // API: 获取当前的收集任务
 router.get('/fetchTask',indexPage.fetchTask)
