@@ -20,7 +20,7 @@ function process() {
     const list = xlsx.parse('./list.xlsx')[0].data
 
     list.forEach((i) => {
-        const key = i[0].substring(i[0].length - 3)
+        const key = toString(i[0]).substring(i[0].length - 3)
         data.stuInfo[key] = {}
 
         data.stuInfo[key].stuName = i[1]
