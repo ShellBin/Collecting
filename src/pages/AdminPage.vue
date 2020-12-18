@@ -25,7 +25,7 @@
             <input v-model.lazy="taskName" style="margin: 0.5rem 0"><br>
             <label>新命名格式：</label>
             <input v-model.lazy="namingRules" style="margin: 0.5rem 0"><br>
-            <p style="color: grey">命名格式支持 姓名、学号、身份证号、任务名 四种模板；命名模板之间可以用任何可作为文件名使用的符号连接（例如空格）</p>
+            <p style="color: grey">命名格式支持 <b>姓名、学号、身份证号、任务名、班级</b> 五种模板；命名模板之间可以用任何可作为文件名使用的符号连接（例如空格）</p>
             <div role="button" @click="updateTask" class="button creat-new-task"><span>新建</span></div>
           </template>
 

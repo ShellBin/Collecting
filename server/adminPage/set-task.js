@@ -14,8 +14,8 @@ function setTask (req, res) {
         // POST 判空
         if (req.body.titleName !== '' && req.body.namingRules !== '') {
             const newRules = req.body.namingRules
-            // 姓名、学号、身份证号、任务名 必须有一项
-            if((newRules.indexOf('姓名') + newRules.indexOf('学号') + newRules.indexOf('身份证号') + newRules.indexOf('任务名')) > -1) {
+            // 姓名、学号、身份证号、任务名、班级 必须有一项
+            if((newRules.indexOf('姓名') + newRules.indexOf('学号') + newRules.indexOf('身份证号') + newRules.indexOf('任务名') + newRules.indexOf('班级')) > -5) {
                 data.namingRules = req.body.namingRules
                 data.titleName = req.body.titleName
                 data.haveAnyTask = Boolean(req.body.haveAnyTask)
