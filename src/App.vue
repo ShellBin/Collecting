@@ -77,7 +77,7 @@ a {
   border: 4px solid white;
   background-color: #A8DBD6;
   color: white;
-  border-radius: 9px;
+  border-radius: 30px;
   font-weight: bolder;
   padding: 0.5rem;
   font-size: 1.2rem;

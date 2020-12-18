@@ -8,24 +8,21 @@
       </div>
 
       <div class="upload_layer" v-if="haveAnyTask">
-        <div>
+        <div class="header-and-form">
           <h2 class="title">"{{ titleName }}" 收集</h2>
-
-          <div v-show="!haveStarted" class="forms">
-            <div style="text-align: left; padding-left: 2.2rem">
-              <label>学号后三位：</label><br>
-              <input v-model.lazy="stuId" maxlength="3" class="input-text">
-            </div>
-            <input type="file" id="file" ref="file" class="input-file" @change="fileChanged">
-            <label for="file"></label>
+          <div v-show="!haveStarted" class="forms" style="text-align: left; padding-left: 2.2rem">
+            <label>学号后三位：</label><br>
+            <input v-model="stuId" placeholder="三位数字填这里" maxlength="3" class="input-text" @input="checkStuId">
+            <input type="file" id="file" ref="file" style="display: none" @change="fileChanged">
           </div>
         </div>
-        <div>
+        <div class="displayString">
           <h3>{{ displayStatus }}</h3>
           <h4>{{ displayMessage }}</h4>
         </div>
-        <div class="info-and-button">
-          <div class="button start" role="button" v-show="!haveStarted" @click="uploadStart"><span>上传文件</span></div>
+        <div class="button-and-intro">
+          <div class="button start" role="button" style="background-color: #748987;" v-show="!haveStarted && !allowUpload"><span>当前不可上传文件</span></div>
+          <div class="button start" role="button" v-show="!haveStarted && allowUpload" @click="fileChanged"><span>上传文件</span></div>
           <div class="button start" role="button" v-show="isError" @click="back"><span>返回</span></div>
           <p style="margin-bottom: 0.4rem">第二次提交将会覆盖上一次的提交</p>
           <p class="intro">仅面向 {{ className }} 使用</p>
@@ -48,8 +45,9 @@ export default {
       className: '某校某系某班',
       haveStarted: false,
       isError: false,
+      allowUpload: false,
       stuId: '',
-      displayStatus: '点击上方图标添加文件',
+      displayStatus: '请先填写学号后三位',
       displayMessage : '',
     }
   },
@@ -57,37 +55,44 @@ export default {
       this.fetchTask()
   },
   methods: {
+    checkStuId () {
+      if (this.stuId.length > 2) {
+        if (parseInt(this.stuId) > 0){
+          this.displayStatus = '可以上传了！'
+          this.allowUpload = true
+        } else {
+          this.displayStatus = '学号真的写对了吗？'
+        }
+      } else {
+        this.displayStatus = '请先填写学号后三位'
+        this.allowUpload = false
+      }
+    },
     fileChanged () {
+      if (!this.$refs.file.files[0]) {
+        document.getElementById("file").click()
+      }
       if (this.$refs.file.files[0]) {
         if(this.$refs.file.files[0].name.length < 12) {
           this.displayStatus = '已选择 ' + this.$refs.file.files[0].name
         } else {
           this.displayStatus = '已选择 ' + this.$refs.file.files[0].name.substring(0,12)+'...'
         }
+        if (this.$refs.file.files[0]) {
+          this.uploadStart ()
+        }
       }
     },
     uploadStart () {
+      this.haveStarted = true
       const thisFile = this.$refs.file.files[0]
-      if (this.haveStarted === true) {
-        alert('上传已经开始')
-      } else {
-        this.haveStarted = true
-      }if (parseInt(this.stuId) > 0 && thisFile) {
-        this.displayStatus = '文件正在上传...'
+        this.displayStatus = '文件正在上传，请不要关闭页面...'
         this.displayMessage = '当前进度 0%'
         if(thisFile.type === ('image/png'||'image/jpeg')) {
-          // 压缩并发送
           this.compressedPic(thisFile)
         } else {
-          // 直接发送
           this.uploadFile(thisFile)
         }
-        // 存储一下本次的学号
-      } else {
-        this.displayStatus = '还不能开始上传'
-        this.displayMessage = '学号和文件是不是有什么没填好的？'
-        this.isError = true
-      }
     },
     compressedPic(pic) {
       this.displayMessage = '图片正在压缩'
@@ -96,7 +101,6 @@ export default {
         maxWidth:720,
         success: (result) => {
           this.uploadFile(new File([result], result.name, {type: result.type}))
-          console.log('图片已被压缩')
         }
       })
     },
@@ -115,7 +119,7 @@ export default {
           })
           .catch(error => {
             this.displayStatus = '上传失败'
-            this.displayMessage = '检查学号是否正确，网络是否正常'
+            this.displayMessage = '学号、文件或网络出现了些问题'
             this.isError = true
             console.error(error)
           })
@@ -155,25 +159,6 @@ export default {
   justify-content: flex-end;
   border-radius: 9px;
 }
-.input-file {
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-.input-file + label {
-  margin: 2vw 0 0 0;
-  padding: 0.6rem;
-  border-radius: 9px;
-  background: white url("../assets/select.png") no-repeat center;
-  background-size: 3rem 3rem;
-  width: 3rem;
-  height: 3rem;
-  display: inline-block;
-  cursor: pointer;
-}
 .input-text {
   border-radius: 9px;
   outline-style: none;
@@ -187,6 +172,9 @@ export default {
   margin: 4vw 15vw 0 0;
 }
 @media (max-width: 1000px) and (orientation: portrait) {
+  .title {
+    margin: 0 0 10vw 0;
+  }
   .index_page {
     justify-content: center;
   }
@@ -195,7 +183,7 @@ export default {
     margin-right: 0;
   }
   .upload_layer {
-    height: 80%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -215,7 +203,7 @@ export default {
   width: 10rem;
   margin: 2rem auto 0.7rem;
 }
-.info-and-button {
+.button-and-intro {
   margin: 6vw auto 3vw;
 }
 .forms {
