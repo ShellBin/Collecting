@@ -13,9 +13,9 @@ function setTask (req, res) {
         const data = JSON.parse(fs.readFileSync(path.resolve(__dirname,"../data.json"), 'utf-8'))
         // POST 判空
         if (req.body.titleName !== '' && req.body.namingRules !== '') {
-            const newString = req.body.namingRules
+            const newRules = req.body.namingRules
             // 姓名、学号、身份证号、任务名 必须有一项
-            if((newString.indexOf('姓名') + newString.indexOf('学号') + newString.indexOf('身份证号') + newString.indexOf('任务名')) !== -1) {
+            if((newRules.indexOf('姓名') + newRules.indexOf('学号') + newRules.indexOf('身份证号') + newRules.indexOf('任务名')) > -1) {
                 data.namingRules = req.body.namingRules
                 data.titleName = req.body.titleName
                 data.haveAnyTask = Boolean(req.body.haveAnyTask)
