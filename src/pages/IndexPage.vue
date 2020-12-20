@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import Compressor from 'compressorjs';
+import Lrz from 'lrz';
 
 export default {
   name: 'IndexPage',
@@ -96,19 +96,13 @@ export default {
     },
     compressedPic(pic) {
       this.displayMessage = '图片正在压缩'
-      new Compressor(pic,{
-        quality:0.5,
-        convertSize:500000,
-        width:640,
-        success: (result) => {
-          this.uploadFile(new File([result], result.name, {type: result.type}))
-        }
+      new Lrz(pic,{width: 640})
+      .then((result) => {
+        this.uploadFile(result.formData)
       })
     },
     uploadFile(file) {
-      const data = new FormData()
-      data.append('file', file)
-      this.axios.post(this.backEndHost + 'uploadFile', data, {
+      this.axios.post(this.backEndHost + 'uploadFile', file, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'stuId': this.stuId
