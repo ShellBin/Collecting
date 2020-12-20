@@ -161,11 +161,13 @@ export default {
     },
     downloadFile () {
       if (!this.isDownloading) {
-        this.message = '文件正在服务器端打包并下载至浏览器，请稍等'
         this.isDownloading = true
         this.axios.get(this.backEndHost + 'downloadFiles', {
           responseType: 'blob',
-          withCredentials: true
+          withCredentials: true,
+          onDownloadProgress: (progressEvent) => {
+            this.message = '文件正在服务器端打包并下载，进度 ' + (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+          }
         }).then (res => {
           this.message = '下载完成'
           const data = res.data
