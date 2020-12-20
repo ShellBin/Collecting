@@ -98,7 +98,8 @@ export default {
       this.displayMessage = '图片正在压缩'
       new Compressor(pic,{
         quality:0.5,
-        maxWidth:720,
+        convertSize:500000,
+        width:640,
         success: (result) => {
           this.uploadFile(new File([result], result.name, {type: result.type}))
         }
@@ -141,7 +142,8 @@ export default {
     back () {
       this.isError = false
       this.haveStarted = false
-      this.displayStatus = '点击上方图标添加文件'
+      this.$refs.file.value = ''
+      this.displayStatus = '点击下方按钮重新上传'
       this.displayMessage = '希望这次你能成功上传'
     }
   }
