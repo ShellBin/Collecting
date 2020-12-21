@@ -86,13 +86,16 @@ export default {
     uploadStart () {
       this.haveStarted = true
       const thisFile = this.$refs.file.files[0]
-        this.displayStatus = '文件正在上传，请不要关闭页面...'
-        this.displayMessage = '当前进度 0%'
-        if(thisFile.type === ('image/png'||'image/jpeg')) {
-          this.compressedPic(thisFile)
-        } else {
-          this.uploadFile(thisFile)
-        }
+      this.displayStatus = '文件正在上传，请不要关闭页面...'
+      this.displayMessage = '当前进度 0%'
+      console.log(thisFile.type)
+      if(thisFile.type.match('image')) {
+        this.compressedPic(thisFile)
+      } else {
+        const data = new FormData
+        data.append('file',thisFile)
+        this.uploadFile(data)
+      }
     },
     compressedPic(pic) {
       this.displayMessage = '图片正在压缩'
