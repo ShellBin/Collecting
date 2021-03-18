@@ -149,15 +149,17 @@ export default {
       this.haveAnyTask = true
     },
     deleteTask () {
-      this.deleteFiles = true
-      this.haveAnyTask = false
-      this.updateTask()
-      setTimeout(() => {
-        this.newTaskMode = true
-        this.deleteFiles = false
-        this.message = ''
-        this.login()
-      }, 800)
+      if (window.confirm('确定要删除所有文件吗')) {
+          this.deleteFiles = true
+          this.haveAnyTask = false
+          this.updateTask()
+          setTimeout(() => {
+          this.newTaskMode = true
+          this.deleteFiles = false
+          this.message = ''
+          this.login()
+        }, 800)
+      }
     },
     downloadFile () {
       if (!this.isDownloading) {
