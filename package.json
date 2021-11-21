@@ -1,33 +1,38 @@
 {
-  "version": "1.0.0",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
-  },
+  "name": "collecting",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@babel/core": "7.x.x",
-    "@babel/preset-env": "7.x.x",
-    "archiver": "^5.1.0",
-    "axios": "^0.21.1",
-    "babel-loader": "8.x.x",
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
-    "css-loader": "^3.2.0",
-    "express": "4.16.x",
-    "file-loader": "^4.2.0",
-    "lrz": "^4.9.41",
-    "md5": "^2.3.0",
-    "multer": "^1.4.2",
-    "node-xlsx": "^0.15.0",
-    "vue": "^2.6.10",
-    "vue-loader": "^15.7.1",
-    "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.15.1",
-    "webpack-dev": "^1.1.1",
-    "webpack-dev-middleware": "3.7.x"
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.0.1"
   },
-  "devDependencies": {
-    "webpack-cli": "^4.2.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

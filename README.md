@@ -1,47 +1,70 @@
-# Collecting —— 文件、截图收集工具 
+# Getting Started with Create React App
 
-广泛用于类似团支书收截图，班长收文件等以班级为单位的文件收集项目；  
-如果你也被强制投票，强制青年大学习等经历，你就知道它用在哪了。  
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-拥有自动重命名、一键打包下载等便捷功能。
+## Available Scripts
 
-# 提要
-这是一个以好玩为目的而开发的项目，且 80% 的代码由 iPad 编写（使用 play.js 进行调试开发）  
-使用 Vue.js + node.js 完成  
-https://blog.shellbin.me/?p=1690
+In the project directory, you can run:
 
-# 项目特点
-1. 超轻页面  
-超级轻量化的设计可以保证在网络环境恶劣的教室也能迅速加载页面
-2. 图片自动压缩  
-若上传文件类型为图片，则自动压缩图片。无论下载还是上传都可以更快更轻松
-3. 免注册登录一键上传  
-不要把使用时间成本由收集者转嫁给上传者
-4. 自动重命名  
-提供了 ```姓名 学号 身份证号 任务名 班级``` 五种可供配置的文件命名模板
-5. 一键打包下载  
-收集者下载好压缩包就可以直接上交给形式主义上级了
+### `yarn start`
 
-# 部署与使用说明
-## 如果你只是想直接使用的话：
-1. 安装 node.js
-2. 在项目目录下执行 ```npm install```
-3. 编辑项目目录下的 ```config.js``` 来进行配置，
-4. 将同学名单 Excel 按以下要求存放在项目目录中以待读取
-![image](https://github.com/ShellBin/Collecting/blob/main/IMG/001.png?raw=true)
-5. 在项目目录下执行 ```node index.js``` 项目就开始运行了！
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## 如果需要项目在服务器后台运行的话：
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-* 运行命令 ```npm install -g forever``` 安装 forever
-* 在本项目目录下执行 ```forever start index.js```
+### `yarn test`
 
-## 如果你想继续二次开发的话，请先了解：
-设置前端部分 dev-server 将使用的端口号： ./index.js => ```port```  
-设置后端服务的端口和密码等: ./server/index.js => ```http.port```  
-然后设置反向代理，使其可通过同一个端口访问来避免跨域错误  
-数据将存储在 data.json 中，上传中的文件使用 upliads-temp 目录，上传完成的文件存储在 uploads 目录；  
-等待下载的压缩包存储在根目录 pack.zip 中。
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-## 状态
-没有增加新功能的打算（例如自动水印、更友好的配置修改），维护中
+### `yarn build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `yarn eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `yarn build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
