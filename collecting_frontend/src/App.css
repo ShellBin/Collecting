@@ -1,38 +1,50 @@
+@import '~antd/dist/antd.css';
+@import 'custom.css';
+/*基础*/
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  height: 100%;
+  color: #0C0C0C;
 }
 
-.App-link {
-  color: #61dafb;
+.background {
+  position: absolute;
+  z-index: -10;
+  width: 100%; height: 100%;
+  background: radial-gradient(farthest-corner circle at 60% 50%, #F7E2C5, #D9ECEC, #F0EFED);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+  background: rgba(255, 255, 255, 0.5);
+  height: 80%; width: 80%;
+  border-radius: 10px;
+}
+
+/*内容物*/
+/*Header 部分*/
+.header {
+  margin: 4vw 4vw 0 4vw;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo-text {
+  font-size: 2rem;
+  font-weight: 500;
+}
+.logo-image {
+  position: absolute;
+  width: 0.7rem; height: 0.7rem;
+  left: 9.3rem ;bottom: 0;
+}
+/*.admin-login {*/
+/*  background: #DEECEC;*/
+/*}*/
+
+.collecting-body {
+  background: aqua;
+  margin: 5rem 2rem;
 }
