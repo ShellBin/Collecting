@@ -8,7 +8,7 @@
     "@babel/core": "7.x.x",
     "@babel/preset-env": "7.x.x",
     "archiver": "^5.1.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "babel-loader": "8.x.x",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
